@@ -1,66 +1,84 @@
 import json
 
+with open("data.json", "r") as f:
+    tamplate = json.load(f)
 
-with open("data.json","r") as f:
-      tamplate=json.load(f)
+class tamagocha():
+    def __init__(self, name, eda, socialka, bdsm, trash, tired):
+        self.name = name
+        self.eda = eda
+        self.socialka = socialka
+        self.bdsm = bdsm
+        self.trash = trash
+        self.tired = tired
+
+
+    def interface(self):
+        do = int(input())
+
+        if do == 1:
+            print("Статус\n" + str(self.name) +
+                ("\nГолод = " + str(self.eda)) +
+                ("\nУсталость = " + str(self.tired)) +
+                ("\nУровень загрязненности комнаты = " + str(self.trash)) +
+                ("\nПотебность в общении = "+ str(self.socialka)) +
+                ("\nПотребность в страданиях = " + str(self.bdsm)))
+
+        elif do == 2:
+            self.eda = 100
+            print("Спасибо было вкусно!\n" + "Голод = " + str(self.eda))
+
+        elif do == 3:
+            self.tired = 100
+            print("Я выспалась!\n" + "Усталость = " + str(self.tired))
+
+        elif do == 4:
+            self.trash = 100
+            print("Какая чистота!\n" + "Уровень загрязнения = " + str(self.trash))
+
+        elif do == 5:
+            self.socialka = 100
+            print("Я так хорошо погуляла!\n" + "Потребность в общении = " + str(self.socialka))
+
+        elif do == 6:
+            self.bdsm = 100
+            print("Это было великолепно!\n" + "Потребность в страданиях = " + str(self.bdsm))
+
+        elif do == 7:
+            return do
+
+        else:
+            print("Я не понимаю, повторите еще раз.")
+
+        if self.eda == 0:
+            print("Ваш персонаж умер от голода")
+        elif self.trash == 0:
+            print("Ваш персонаж умер в грязи от инфекций")
+        elif self.bdsm == 0:
+            print("Ваш персонаж совершил суицид")
+        elif self.tired == 0:
+            print("Ваш персонаж устал до смерти")
+        elif self.socialka == 0:
+            print("Ваш персонаж умер от одиночества")
+        return do
 
 print("Добро пожаловать домой! Что вы хотите сделать, хозяин?\n" + "Посмотреть статус - 1\n"
        + "Покормить - 2\n" + "Отправить в кровать - 3\n"
        + "Навести порядки и покупать - 4\n" + "Отправить на прогулку - 5\n" + "Отправить в БДСМ клуб - 6\n")
 
-
-def tamagocha():
-
-      do=int(input())
-
-      if do == 1:
-            print("Статус\n" + str(tamplate["name"]) + ("\nГолод = " + str(tamplate["eda"])) + ("\nУсталость = " + str(tamplate["tired"])) +
-            ("\nУровень загрязненности комнаты = " + str(tamplate["trash"])) + ("\nПотебность в общении = "
-            + str(tamplate["socialka"])) + ("\nПотребность в страданиях = " + str(tamplate["bdsm"])))
-
-      elif do == 2:
-            tamplate["eda"] = 100
-            print("Спасибо было вкусно!\n" + "Голод = " + str(tamplate["eda"]))
-
-      elif do == 3:
-            tamplate["tired"] = 100
-            print("Я выспалась!\n" + "Усталость = " + str(tamplate["tired"]))
-
-      elif do == 4:
-            tamplate["trash"] = 100
-            print("Какая чистота!\n" + "Уровень загрязнения = " + str(tamplate["trash"]))
-
-      elif do == 5:
-            tamplate["socialka"] = 100
-            print("Я так хорошо погуляла!\n" + "Потребность в общении = " + str(tamplate["socialka"]))
-
-      elif do == 6:
-            tamplate["bdsm"] = 100
-            print("Это было великолепно!\n" + "Потребность в страданиях = " + str(tamplate["bdsm"]))
-
-      elif do == 7:
-            return do
-
-      else:
-            print("Я не понимаю, повторите еще раз.")
-
-      if tamplate["eda"] == 0:
-            print("Ваш персонаж умер от голода")
-      elif tamplate["trash"] == 0:
-            print("Ваш персонаж умер в грязи от инфекций")
-      elif tamplate["bdsm"] == 0:
-            print("Ваш персонаж совершил суицид")
-      elif tamplate["tired"] == 0:
-            print("Ваш персонаж устал до смерти")
-      elif tamplate["socialka"] == 0:
-            print("Ваш персонаж умер от одиночества")
-      return do
+tamagocha1 = tamagocha(tamplate["name"], tamplate["eda"],
+                       tamplate["socialka"], tamplate["bdsm"],
+                       tamplate["trash"],tamplate["tired"])
 
 end=0
 while end!=7:
-      end=tamagocha()
+      end=tamagocha1.interface()
 
+tamplate["eda"] = tamagocha1.eda
+tamplate["socialka"] = tamagocha1.socialka
+tamplate["bdsm"] = tamagocha1.bdsm
+tamplate["trash"] = tamagocha1.trash
+tamplate["tired"] = tamagocha1.tired
 
-with open("data.json","w") as f:
-      json.dump(tamplate,f)
-
+with open("data.json", "w") as f:
+    json.dump(tamplate, f)
