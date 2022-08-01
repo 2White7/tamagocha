@@ -1,6 +1,7 @@
 import json
 import datetime
 
+
 with open("data.json", "r") as f:
     tamplate = json.load(f)
 
