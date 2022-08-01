@@ -1,4 +1,5 @@
 import json
+import datetime
 
 with open("data.json", "r") as f:
     tamplate = json.load(f)
@@ -50,17 +51,19 @@ class tamagocha():
         else:
             print("Я не понимаю, повторите еще раз.")
 
-        if self.eda == 0:
+        if self.eda <= 0:
             print("Ваш персонаж умер от голода")
-        elif self.trash == 0:
+        elif self.trash <= 0:
             print("Ваш персонаж умер в грязи от инфекций")
-        elif self.bdsm == 0:
+        elif self.bdsm <= 0:
             print("Ваш персонаж совершил суицид")
-        elif self.tired == 0:
+        elif self.tired <= 0:
             print("Ваш персонаж устал до смерти")
-        elif self.socialka == 0:
+        elif self.socialka <= 0:
             print("Ваш персонаж умер от одиночества")
         return do
+
+
 
 print("Добро пожаловать домой! Что вы хотите сделать, хозяин?\n" + "Посмотреть статус - 1\n"
        + "Покормить - 2\n" + "Отправить в кровать - 3\n"
@@ -69,6 +72,21 @@ print("Добро пожаловать домой! Что вы хотите сд
 tamagocha1 = tamagocha(tamplate["name"], tamplate["eda"],
                        tamplate["socialka"], tamplate["bdsm"],
                        tamplate["trash"],tamplate["tired"])
+
+now = datetime.datetime.today()
+
+time = tamplate["time"]
+tamplate["time"] = str(now)
+
+time1 = datetime.datetime.strptime(time, "%Y-%m-%d %H:%M:%S.%f")
+c = str(now - time1)
+diff = datetime.datetime.strptime(c, "%H:%M:%S.%f")
+if diff.hour > 0:
+    tamagocha1.eda = tamagocha1.eda - (10 * diff.hour)
+    tamagocha1.bdsm = tamagocha1.bdsm - (10 * diff.hour)
+    tamagocha1.trash = tamagocha1.trash - (10 * diff.hour)
+    tamagocha1.tired = tamagocha1.tired - (10 * diff.hour)
+    tamagocha1.socialka = tamagocha1.socialka - (10 * diff.hour)
 
 end=0
 while end!=7:
