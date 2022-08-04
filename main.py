@@ -2,11 +2,8 @@ import json
 import datetime
 
 
-with open("data.json", "r") as f:
-    tamplate = json.load(f)
-
 class tamagocha():
-    def __init__(self, name, eda, socialka, bdsm, trash, tired):
+    def __init__(self, data, name, eda = 100, socialka = 100, bdsm = 100, trash = 100, tired = 100):        
         self.name = name
         self.eda = eda
         self.socialka = socialka
@@ -65,39 +62,45 @@ class tamagocha():
         return do
 
 
+def main():
+    with open("data.json", "r") as f:
+        tamplate = json.load(f)
 
-print("Добро пожаловать домой! Что вы хотите сделать, хозяин?\n" + "Посмотреть статус - 1\n"
-       + "Покормить - 2\n" + "Отправить в кровать - 3\n"
-       + "Навести порядки и покупать - 4\n" + "Отправить на прогулку - 5\n" + "Отправить в БДСМ клуб - 6\n")
+    print("Добро пожаловать домой! Что вы хотите сделать, хозяин?\n" + "Посмотреть статус - 1\n"
+        + "Покормить - 2\n" + "Отправить в кровать - 3\n"
+        + "Навести порядки и покупать - 4\n" + "Отправить на прогулку - 5\n" + "Отправить в БДСМ клуб - 6\n")
 
-tamagocha1 = tamagocha(tamplate["name"], tamplate["eda"],
-                       tamplate["socialka"], tamplate["bdsm"],
-                       tamplate["trash"],tamplate["tired"])
+    tamagocha1 = tamagocha(tamplate["name"], tamplate["eda"],
+                        tamplate["socialka"], tamplate["bdsm"],
+                        tamplate["trash"],tamplate["tired"])
 
-now = datetime.datetime.today()
+    now = datetime.datetime.today()
 
-time = tamplate["time"]
-tamplate["time"] = str(now)
+    time = tamplate["time"]
+    tamplate["time"] = str(now)
 
-time1 = datetime.datetime.strptime(time, "%Y-%m-%d %H:%M:%S.%f")
-c = str(now - time1)
-diff = datetime.datetime.strptime(c, "%H:%M:%S.%f")
-if diff.hour > 0:
-    tamagocha1.eda = tamagocha1.eda - (10 * diff.hour)
-    tamagocha1.bdsm = tamagocha1.bdsm - (10 * diff.hour)
-    tamagocha1.trash = tamagocha1.trash - (10 * diff.hour)
-    tamagocha1.tired = tamagocha1.tired - (10 * diff.hour)
-    tamagocha1.socialka = tamagocha1.socialka - (10 * diff.hour)
+    time1 = datetime.datetime.strptime(time, "%Y-%m-%d %H:%M:%S.%f")
+    c = str(now - time1)
+    diff = datetime.datetime.strptime(c, "%H:%M:%S.%f")
+    if diff.hour > 0:
+        tamagocha1.eda = tamagocha1.eda - (10 * diff.hour)
+        tamagocha1.bdsm = tamagocha1.bdsm - (10 * diff.hour)
+        tamagocha1.trash = tamagocha1.trash - (10 * diff.hour)
+        tamagocha1.tired = tamagocha1.tired - (10 * diff.hour)
+        tamagocha1.socialka = tamagocha1.socialka - (10 * diff.hour)
 
-end=0
-while end!=7:
-      end=tamagocha1.interface()
+    end=0
+    while end!=7:
+        end=tamagocha1.interface()
 
-tamplate["eda"] = tamagocha1.eda
-tamplate["socialka"] = tamagocha1.socialka
-tamplate["bdsm"] = tamagocha1.bdsm
-tamplate["trash"] = tamagocha1.trash
-tamplate["tired"] = tamagocha1.tired
+    tamplate["eda"] = tamagocha1.eda
+    tamplate["socialka"] = tamagocha1.socialka
+    tamplate["bdsm"] = tamagocha1.bdsm
+    tamplate["trash"] = tamagocha1.trash
+    tamplate["tired"] = tamagocha1.tired
 
-with open("data.json", "w") as f:
-    json.dump(tamplate, f)
+    with open("data.json", "w") as f:
+        json.dump(tamplate, f)
+
+if __name__ == "__main__":
+    main()
