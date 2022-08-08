@@ -110,6 +110,8 @@ def main():
     end=0
     while end!=7:
         end=tamagocha1.run()
+    else:
+        write_data("data.json")
 
 
 if __name__ == "__main__":
