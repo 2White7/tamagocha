@@ -1,6 +1,6 @@
 import json
-import datetime
-
+from datetime import datetime
+import re
 
 with open("data.json", "r") as f:
     tamplate = json.load(f)
@@ -74,21 +74,22 @@ tamagocha1 = tamagocha(tamplate["name"], tamplate["eda"],
                        tamplate["socialka"], tamplate["bdsm"],
                        tamplate["trash"],tamplate["tired"])
 
-now = datetime.datetime.today()
-
+now = datetime.now()
 time = tamplate["time"]
-tamplate["time"] = str(now)
-
-time1 = datetime.datetime.strptime(time, "%Y-%m-%d %H:%M:%S.%f")
-c = str(now - time1)
-diff = datetime.datetime.strptime(c, "%H:%M:%S.%f")
-if diff.hour > 0:
-    tamagocha1.eda = tamagocha1.eda - (10 * diff.hour)
-    tamagocha1.bdsm = tamagocha1.bdsm - (10 * diff.hour)
-    tamagocha1.trash = tamagocha1.trash - (10 * diff.hour)
-    tamagocha1.tired = tamagocha1.tired - (10 * diff.hour)
-    tamagocha1.socialka = tamagocha1.socialka - (10 * diff.hour)
-
+c = re.split(":| |-", time)
+y = int(c[0])
+m = int(c[1])
+d = int(c[2])
+h = int(c[3])
+min = int(c[4])
+s = int(c[5])
+time1 = datetime(y, m, d, h, min, s)
+data = time1 - now
+tamagocha1.eda = tamagocha1.eda - data.seconds//60//15
+tamagocha1.socialka = tamagocha1.socialka - data.seconds//60//20
+tamagocha1.bdsm = tamagocha1.bdsm - data.seconds//60//60
+tamagocha1.tired = tamagocha1.tired - data.seconds//60//15
+tamagocha1.trash = tamagocha1.trash - data.seconds//60//25
 end=0
 while end!=7:
       end=tamagocha1.interface()
@@ -98,6 +99,6 @@ tamplate["socialka"] = tamagocha1.socialka
 tamplate["bdsm"] = tamagocha1.bdsm
 tamplate["trash"] = tamagocha1.trash
 tamplate["tired"] = tamagocha1.tired
-
+tamplate["time"] = str(datetime.today().replace(microsecond=0))
 with open("data.json", "w") as f:
     json.dump(tamplate, f)
